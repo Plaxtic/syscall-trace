@@ -1,4 +1,3 @@
-#include <stddef.h>
 #include <string.h>
 #include <ctype.h>
 #include <sys/ptrace.h>
@@ -369,14 +368,14 @@ long long gettdata(pid_t child, long long addr, char *str, int len) {
 
 int get_syscall_format_string(int code, char format_string[MAXSYSCALLFORMATLEN], long long regs[6], pid_t child) {
     struct syscall *sc;
-    memset(format_string, 0, MAXSYSCALLFORMATLEN);
-    int i;
 
+    memset(format_string, 0, MAXSYSCALLFORMATLEN);
     for (sc = syscall_table; sc->code >= 0; sc++) {
         if (sc->code == code) {
             strncpy(format_string, sc->name, MAXSYSCALLNAMELEN);
             strcat(format_string, "(");
 
+            int i;
             for (i = 0; i < sc->nargs; i++) {
                 char format[40];
 
